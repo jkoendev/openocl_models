@@ -5,9 +5,12 @@ classdef P560OCP < OCP
     end
     function pathCosts(self,states,algVars,controls,time,endTime,parameters)
       
-      self.addPathCost( 1e-6 * controls.T*controls.T' );
+      % penalize torque
+      self.addPathCost( 1e-6 * controls.tau*controls.tau' );
       
-      e = algVars.p - [-0.5;0;0];
+      % minimize distance to target position
+      target = [-0.5;0;0];
+      e = algVars.p - target;
       self.addPathCost(e'*e)
     end
     function arrivalCosts(self,states,endTime,parameters)

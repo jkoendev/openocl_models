@@ -5,10 +5,11 @@ classdef P560System < System
   end
   methods
     function setupVariables(self)
+      
       self.addState('q',[1,6]);
       self.addState('dq',[1,6]);
       
-      self.addControl('T',[1,6]);
+      self.addControl('tau',[1,6]); % motor torque
       
       self.addAlgVar('p',[3,1]);
       
@@ -23,10 +24,10 @@ classdef P560System < System
       % Get access to the system variables
       q = states.q;
       dq = states.dq;
-      T = controls.T;
+      tau = controls.tau;
       p = algVars.p;
       
-      ddq = self.robot.accel(q,dq,T);
+      ddq = self.robot.accel(q,dq,tau);
       
       % Define differential equations
       self.setODE('q',dq); 
