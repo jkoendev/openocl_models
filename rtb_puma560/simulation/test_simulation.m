@@ -8,11 +8,11 @@ n = robot.n;
 
 q = CasadiArithmetic.Matrix([1,6]);
 dq = CasadiArithmetic.Matrix([1,6]);
-T = CasadiArithmetic.Matrix([1,6]);
+tau = CasadiArithmetic.Matrix([1,6]);
 
-ddq = robot.accel(q,dq,T);
+ddq = robot.accel(q,dq,tau);
 
-ode_fun = casadi.Function('fun',{q.value,dq.value,T.value},{ddq.value});
+ode_fun = casadi.Function('fun',{q.value,dq.value,tau.value},{ddq.value});
 
 q0 = qs;
 qd0 = qr*0;
