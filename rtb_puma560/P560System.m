@@ -10,7 +10,6 @@ classdef P560System < System
       
       self.addControl('T',[1,6]);
       
-      % Define a 3x1 algebraic variables
       self.addAlgVar('p',[3,1]);
       
       mdl_puma560
@@ -20,8 +19,6 @@ classdef P560System < System
       
     end
     function setupEquation(self,states,algVars,controls,parameters)
-      % The differential and algebraic equations of the system are 
-      % implemented in the setupEquation method
       
       % Get access to the system variables
       q = states.q;
@@ -35,7 +32,7 @@ classdef P560System < System
       self.setODE('q',dq); 
       self.setODE('dq',ddq);
       
-      
+      % constrain p to be endeffector position
       fk = self.robot.fkine(q);
       self.setAlgEquation(p - fk.t);
       
