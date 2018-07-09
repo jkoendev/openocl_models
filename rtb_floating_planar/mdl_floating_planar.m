@@ -1,7 +1,7 @@
 function [ floating_planar ] = mdl_floating_planar()
 
 qz = [0 0 0 0];
-qn = [1 1 -pi/6, pi/6];
+qn = [1 1 0 -pi/6];
 
 floating_planar = SerialLink([
     Prismatic('theta' ,0, 'a', 0, 'alpha', -pi/2, 'm', 10, 'r', [0 0 0], 'I', [0 0 0], 'B', 0, 'G', 0, 'Jm', 0, 'standard')

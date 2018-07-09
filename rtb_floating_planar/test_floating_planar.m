@@ -1,11 +1,18 @@
 
 [ floating_planar ] = mdl_floating_planar();
 
+floating_planar.fast = 0;
+
+q = floating_planar.qn;
+dq = 0*q;
+tau = 0*q;
+ddq = floating_planar.accel(q,dq,tau);
+
+
 figure;
 plot_floating(floating_planar,floating_planar.qn)
 
 
-floating_planar.fast = 0;
 floating_planar.iscsym = 1;
 
 n = floating_planar.n;
@@ -21,7 +28,7 @@ ddq = floating_planar.accel(q,dq,tau);
 ode_fun = casadi.Function('fun',{q.value,dq.value,tau.value},{ddq.value});
 
 q0 = floating_planar.qn;
-qd0 = [2,5,0,0];
+qd0 = [2,5,1,0];
 
 x0 = [q0(:); qd0(:)];
 
@@ -36,3 +43,8 @@ qd = y(:,n+1:2*n);
 
 figure
 plot_floating(floating_planar,q,'delay', dt)
+
+
+% XDD = J(Q)QDD + JDOT(Q)QD
+
+Jdot = jacob_dot(robot, q, qd)
