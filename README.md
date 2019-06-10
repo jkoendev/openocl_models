@@ -1,5 +1,9 @@
 # openocl_models
 
+We plan to implement a direct interface to Peter Corke's robotics toolbox in OpenOCL soon, let me know if you would like to get involved!
+https://github.com/OpenOCL/OpenOCL/issues/102
+
+
 Model for optimal control with OpenOCL
 
 rtb: models used with Peter Corke's robotics toolbox
