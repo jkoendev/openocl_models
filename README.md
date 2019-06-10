@@ -4,7 +4,7 @@ We plan to implement a direct interface to Peter Corke's robotics toolbox in Ope
 https://github.com/OpenOCL/OpenOCL/issues/102
 
 
-Model for optimal control with OpenOCL
+Collection of models for optimal control with OpenOCL
 
 rtb: models used with Peter Corke's robotics toolbox
 
