@@ -42,7 +42,7 @@
 %          / theta)
 %       p1,p5 ---------------- p6
 %
-function half_bobcat_simulate
+function half_bobcat_fixed_feet
 
   conf = struct;
   conf.r0 = 1;
@@ -175,20 +175,19 @@ function [diff,alg] = gait_double_support_dae(diff, alg, x, z, conf)
   p6_direction = p6-p0;
   p5_direction = p5_direction/norm(p5_direction);
   p6_direction = p6_direction/norm(p6_direction);
+  
+  a_mass = [0;-g] + f1*p5_direction/m + f2*p6_direction/m;
 
   diff.p0 = v0;
-  diff.v0  = [0;-g] + f1*p5_direction/m + f2*p6_direction/m;
+  diff.v0  = a_mass;
 
   diff.q1 = q1_dot;
   diff.q1 = q1_dot;
   diff.q3 = q1_dot;
   diff.q4 = q1_dot;
-  
-  v5 = v5fun(v0, theta, theta_dot, q1, q1_dot, q3, q3_dot, r0, r1, r2);
-  v6 = v6fun(v0, theta, theta_dot, q2, q2_dot, q4, q4_dot, r0, r1, r2);
 
-  alg(1) = dot(v5,v5);
-  alg(2) = dot(v6,v6);
+  alg(1) = a_mass(1);
+  alg(2) = a_mass(2);
 
   % constraint:
   %   cos(theta) = dot((p2-p1), (p6-p5)) / norm(p2-p1) / norm(p6-p5)
@@ -198,6 +197,9 @@ function [diff,alg] = gait_double_support_dae(diff, alg, x, z, conf)
   
   v1 = v1fun(v0, theta, theta_dot, r0);
   v2 = v2fun(v0, theta, theta_dot, r0);
+
+  v5 = v5fun(v0, theta, theta_dot, q1, q1_dot, q3, q3_dot, r0, r1, r2);
+  v6 = v6fun(v0, theta, theta_dot, q2, q2_dot, q4, q4_dot, r0, r1, r2);
 
   alg(3) = sin(theta) * theta_dot + ...
            v2'*p6+p2'*v6-v2'*p5-p2'*v5-v1'*p6-p1'*v6+v1'*p5+p1'*v5;

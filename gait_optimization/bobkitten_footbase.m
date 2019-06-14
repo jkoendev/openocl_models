@@ -5,16 +5,16 @@
 %                          
 %                          _  _ 
 %                        /      \
-%       _               /  ^   ^ \
+%     * _               /  ^   ^ \
 %         \             \    ?   /
 %          \             \  __  /
 %           p4----------p3\/  \/
-%          /            /
-%         /            /
-%        p5           p2
-%        \             \
-%         \             \
-%          p6            p1
+%          /           /
+%         /           /
+%        p5          p2
+%        \            \
+%         \            \
+%          p6           p1
 %
 % Joint angles:
 %
@@ -23,7 +23,7 @@
 %         /            /
 %        o q4)        o q1)
 %        \             \
-%         \             \
+%         \             \ q0)
 %          o             o
 %
 % Body dimensions (link lengths):
@@ -38,11 +38,30 @@
 %          \             \
 %           o             o
 %
-% The angle theta is the angle of link r0 w.r.t. to the global reference frame
-% which is given by the ground plane (line between p5 and p6).
-%
-%                           p2
-%                    _ _ _ /
-%            _ _ _ /
-%          / theta)
-%       p1,p5 ---------------- p6
+function bobkitten_footbase
+
+  conf = struct;
+  conf.r0 = 1;
+  conf.r1 = 0.5;
+  conf.r2 = 0.5;
+  conf.g = 9.81;
+  conf.m = 1;
+
+  p0_init = [0;sqrt(2)/2];
+  v0_init = [0;0];
+  theta_init = 0;
+  q1_init = pi/4;
+  q2_init = pi/4;
+  q3_init = -pi/2;
+  q4_init = -pi/2;
+  
+  theta_dot_init = 0;
+  f1_init = 0;
+  f2_init = 0;
+
+  p = p1(p0_init, 0, conf.r1);
+end
+
+function p = p1(p0, q0, r1)
+  p = p0 + 
+end
