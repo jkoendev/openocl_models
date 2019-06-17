@@ -40,6 +40,10 @@ startup_rtb
 
 Setup OpenOCL
 
+Downlod/install from [https://openocl.org/get-started/](https://openocl.org/get-started/)
+
+Run setup 
+
 ```
 ocl
 ```
