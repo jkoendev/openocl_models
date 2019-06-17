@@ -16,15 +16,25 @@ For optimal control example see rtb_puma560
 * https://github.com/openocl/robotics-toolbox-matlab
 * https://openocl.org/
 
-Add to path and run setup rtb
+Setup RTB
 
 ```
+git clone git@github.com:OpenOCL/toolbox-common-matlab.git
 cd toolbox-common-matlab
 git checkout rtb10
-addpath toolbox-common-matlab
+cd ..
 
+git clone git@github.com:OpenOCL/robotics-toolbox-matlab.git
 cd robotics-toolbox-matlab
 git checkout rtb10
+cd ..
+```
+
+In Matlab
+
+```
+addpath toolbox-common-matlab
+cd robotics-toolbox-matlab
 startup_rtb
 ```
 
