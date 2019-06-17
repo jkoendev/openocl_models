@@ -19,8 +19,12 @@ For optimal control example see rtb_puma560
 Add to path and run setup rtb
 
 ```
+cd toolbox-common-matlab
+git checkout rtb10
 addpath toolbox-common-matlab
+
 cd robotics-toolbox-matlab
+git checkout rtb10
 startup_rtb
 ```
 
