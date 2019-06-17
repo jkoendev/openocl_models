@@ -10,7 +10,7 @@ rtb: models used with Peter Corke's robotics toolbox
 
 For optimal control example see rtb_puma560
 
-requirements (from https://github.com/JonasKoenemann): 
+requirements (from https://github.com/jkoendev/): 
 * toolbox-common-matlab
 * robotics-toolbox-matlab (branch: openocl_integr)
 * optimal-control
