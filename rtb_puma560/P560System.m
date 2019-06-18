@@ -16,7 +16,7 @@ classdef P560System < System
       mdl_puma560
       self.robot = p560;
       self.robot.fast = 0;
-      self.robot.iscsym = 1;
+      self.robot.issym = 1;
       
     end
     function setupEquation(self,states,algVars,controls,parameters)

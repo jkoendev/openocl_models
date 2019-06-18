@@ -1,0 +1,7 @@
+function r = zeros(varargin)
+  if nargin == 3 && strcmp(varargin{3}, 'sym')
+    r = 0*CasadiVariable.Matrix([varargin{1},varargin{2}]);
+  else
+    r = builtin('zeros',varargin{:});
+  end
+end
