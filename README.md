@@ -3,12 +3,13 @@
 We plan to implement a direct interface to Peter Corke's robotics toolbox in OpenOCL soon, let me know if you would like to get involved!
 https://github.com/OpenOCL/OpenOCL/issues/102
 
+Collection of (very experimental) models for optimal control with OpenOCL.
 
-Collection of models for optimal control with OpenOCL
+Code generation of RTB model with symbolic toolbox and casadi: rtb_p560_symbolic_sim
 
 rtb: models used with Peter Corke's robotics toolbox
 
-For optimal control example see rtb_puma560
+For optimal control example see rtb_puma560 (outdated by now)
 
 ## requirements (from https://github.com/jkoendev/): 
 
