@@ -14,6 +14,6 @@ torque_jac_q_out = jacobian(torque_out, q_sym);
 
 [~,~] = mkdir('export');
 matlabFunction(torque_out,'Vars',{q_sym,qd_sym,tau_sym},'File',fullfile('export','p560_torque_generated.m'),'Optimize',true);
-matlabFunction(mass_out,'Vars',{q_sym,qd_sym},'File',fullfile('export','p560_mass_generated.m'),'Optimize',true);
+matlabFunction(mass_out,'Vars',{q_sym},'File',fullfile('export','p560_mass_generated.m'),'Optimize',true);
 matlabFunction(torque_jac_q_out,'Vars',{q_sym,qd_sym,tau_sym},'File',fullfile('export','p560_torque_jac_q_generated.m'),'Optimize',true);
 addpath('export')

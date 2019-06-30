@@ -6,7 +6,7 @@ function p560_ocl_dae(eq, x, z, u, p)
   tau = u.tau;
 
   torque = p560_torque_generated(q,qd,tau);
-  mass = p560_mass_generated(q,qd);
+  mass = p560_mass_generated(q);
   
   eq.setAlgEquation(mass_inv*mass-eye(6));
   eq.setODE('q', qd);
