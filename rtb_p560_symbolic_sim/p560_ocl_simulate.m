@@ -18,8 +18,8 @@ simulator.reset(x0);
 figure
 p560.plot(x0.q.value)
 
-for k=1:100
-  [x,~] = simulator.step([5,1,1,1,1,1], 0.1);
+for k=1:10
+  [x,~] = simulator.step(zeros(1,6), 0.1);
   p560.plot(x.q.value)
   
 end

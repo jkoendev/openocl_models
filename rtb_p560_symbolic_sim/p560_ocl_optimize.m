@@ -6,13 +6,12 @@ q0 = p560.qn;
 
 solver = ocl.Solver(1, @p560_ocl_vars, @p560_ocl_dae, @p560_ocl_cost);
 
-% solver.setInitialBounds('q', q0);
+solver.setInitialBounds('q', q0);
 % solver.setInitialBounds('qd', zeros(6,1));
 
-solver.setBounds('tau', 0,0);
+solver.setBounds('tau', -0.1, 0.1);
 
-mass0 = p560_mass_generated(q0,zeros(1,6));
-
+mass0 = p560_mass_generated(q0);
 
 ig = solver.ig();
 ig.integrator.algvars.mass_inv.set(inv(mass0));
