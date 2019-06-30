@@ -9,8 +9,8 @@ tau_sym = sym('qdd', [1,n], 'real');
 
 qdd_out = p560.nofriction.accel(q_sym, qd_sym, tau_sym);
 
-[~,~] = mkdir('export');
+% [~,~] = mkdir('export');
 
-matlabFunction(qdd_out,'Vars',{q_sym,qd_sym,tau_sym},'File',fullfile('export','p560_qdd_generated.m'),'Optimize',true);
+% matlabFunction(qdd_out,'Vars',{q_sym,qd_sym,tau_sym},'File',fullfile('export','p560_qdd_generated.m'),'Optimize',true);
 
-addpath('export')
+% addpath('export')
