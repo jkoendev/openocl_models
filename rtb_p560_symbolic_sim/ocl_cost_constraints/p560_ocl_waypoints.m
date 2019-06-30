@@ -1,7 +1,14 @@
-function p560_ocl_waypoints(ch, k, K, x, ~)
+function p560_ocl_waypoints(ch, k, x, wp1, wp2)
 
-  if k == 5
-    p_target = [0.5; 0.5; 0.5];
+  if k == 20
+    p_target = wp1;
+    p = p560_p_endeff_generated(x.q);
+    p_e = p.' - p_target;
+    ch.add(p_e.'*p_e);
+  end
+  
+  if k == 40
+    p_target = wp2;
     p = p560_p_endeff_generated(x.q);
     p_e = p.' - p_target;
     ch.add(p_e.'*p_e);
