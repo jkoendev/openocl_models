@@ -1,48 +1,20 @@
-function p560_ocl_optimize
+addpath('export')
+addpath('ocl_model')
 
-  solver = ocl.Solver(3, @p560_vars, @p560_dae, @p560_cost);
+mdl_puma560
+q0 = p560.qn;
 
-  solver.setInitialBounds('q', [0,0,0,0,0,0]);
-  solver.setInitialBounds('qd', [0,0,0,0,0,0]);
-  
-  [sol,times] = solver.solve(solver.ig());
+solver = ocl.Solver(3, @p560_ocl_vars, @p560_ocl_dae, @p560_ocl_cost);
 
-  mdl_puma560
-  
-  p560.plot3d(sol.states.q.value)
+solver.setInitialBounds('q', q0);
+solver.setInitialBounds('qd', zeros(6,1));
 
-end
+solver.setBounds('tau', 1,1)
 
-function p560_cost(cost, x, z, u, p)
+[sol,times] = solver.solve(solver.ig());
 
-  e = x.q';
-  cost.add(e.'*e);
+q_traj = sol.states.q.value.';
 
-end
+figure
+p560.plot3d(q_traj)
 
-function p560_vars(vars)
-
-  vars.addState('q', [1,6]);
-  vars.addState('qd', [1,6]);
-  
-  vars.addAlgVar('mass_inv', [6,6]);
-  
-  vars.addControl('tau', [1,6]);
-
-end
-
-function p560_dae(eq, x, z, u, p)
-
-  q = x.q;
-  qd = x.qd;
-  mass_inv = z.mass_inv;
-  tau = u.tau;
-
-  torque = p560_torque_generated(q,qd,tau);
-  mass = p560_mass_generated(q,qd);
-  
-  eq.setAlgEquation(mass_inv*mass-eye(6));
-  eq.setODE('q', qd);
-  eq.setODE('qd', mass_inv * torque.');
-  
-end
