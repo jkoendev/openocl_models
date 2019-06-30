@@ -11,35 +11,15 @@ rtb: models used with Peter Corke's robotics toolbox
 
 For optimal control example see rtb_puma560 (outdated by now)
 
-## requirements (from https://github.com/jkoendev/): 
+This repository is very experimental!
 
-* https://github.com/openocl/toolbox-common-matlab
-* https://github.com/openocl/robotics-toolbox-matlab
-* https://openocl.org/
+## requirements
 
-Setup RTB
+### Setup RTB
 
-```
-git clone git@github.com:OpenOCL/toolbox-common-matlab.git
-cd toolbox-common-matlab
-git checkout rtb10
-cd ..
+Downlod/install from [http://petercorke.com/wordpress/toolboxes/robotics-toolbox](http://petercorke.com/wordpress/toolboxes/robotics-toolbox)
 
-git clone git@github.com:OpenOCL/robotics-toolbox-matlab.git
-cd robotics-toolbox-matlab
-git checkout rtb10
-cd ..
-```
-
-In Matlab
-
-```
-addpath toolbox-common-matlab
-cd robotics-toolbox-matlab
-startup_rtb
-```
-
-Setup OpenOCL
+### Setup OpenOCL
 
 Downlod/install from [https://openocl.org/get-started/](https://openocl.org/get-started/)
 
@@ -49,4 +29,4 @@ Run setup
 ocl
 ```
 
-this repository is very experimental!
+
