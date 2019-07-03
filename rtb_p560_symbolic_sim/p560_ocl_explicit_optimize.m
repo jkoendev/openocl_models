@@ -3,7 +3,7 @@ addpath('ocl_model')
 addpath('ocl_cost_constraints')
 addpath('ocl_model_explicit')
 
-movie = false;
+movie = true;
 
 mdl_puma560
 q0 = p560.qz;
@@ -53,7 +53,7 @@ plot3(wp1(1), wp1(2), wp1(3), 'ro', 'LineWidth', 5);
 plot3(wp2(1), wp2(2), wp2(3), 'bo', 'LineWidth', 5);
 
 if movie
-  p560.plot3d(q_traj, 'fps', N/T, 'movie', 'movie');
+  p560.plot3d(q_traj, 'fps', N/T, 'movie', 'movie.mp4');
 else
   p560.plot3d(q_traj, 'fps', N/T);
 end
