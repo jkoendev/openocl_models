@@ -9,7 +9,7 @@ Code generation of RTB model with symbolic toolbox and casadi: rtb_p560_symbolic
 
 rtb: models used with Peter Corke's robotics toolbox
 
-For optimal control example see rtb_puma560 (outdated by now)
+For optimal control example see/run rtb_p560_symbolic_sim/p560_ocl_explicit_optimize.m
 
 This repository is very experimental!
 
