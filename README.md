@@ -1,6 +1,6 @@
 # openocl_models
 
-![Minimal torque optimized trajectory with two waypoints](openocl.org/assets/img/p560_two_waypoint.gif)
+![Minimal torque optimized trajectory with two waypoints](https://openocl.org/assets/img/p560_two_waypoint.gif)
 
 We plan to implement a direct interface to Peter Corke's robotics toolbox in OpenOCL soon, let me know if you would like to get involved!
 https://github.com/OpenOCL/OpenOCL/issues/102
