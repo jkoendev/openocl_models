@@ -27,7 +27,7 @@ for t=0:h:3
   opt = optimoptions('quadprog');
   opt.Display = 'off';
   meas_tic = tic;
-  QP_Fc = quadprog(M,q,-1,0,[],[],[],[],[],opt);
+  QP_Fc = quadprog(M,q,-M,q,[],[],0,[],[],opt);
   sum_times = sum_times + toc(meas_tic);
   
   % forward integration (euler) using calculated contact force
