@@ -15,7 +15,7 @@ contactForces = [];
 heights = [];
 
 figure
-suptitle(['tau=' num2str(tau)])
+title(['tau=' num2str(tau)])
 
 sum_times = 0;
 

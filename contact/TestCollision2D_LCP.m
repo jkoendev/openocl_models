@@ -22,11 +22,12 @@ for t=0:h:3
   
   % solve LCP
   M = h^2 / m;
-  q = p0(2)+h*v0(2)-h^2/g;
+  q = p0(2)+h*v0(2)-h^2*g;
   
   meas_tic = tic;
-  [~,LCP_Fc,~] = LCPSolve(M,q);
+  [w,LCP_Fc,~] = LCPSolve(M,q);
   sum_times = sum_times + toc(meas_tic);
+  
   
   % forward integration (euler) using calculated contact force
   v0 = v0+h*([0;-g]+LCP_Fc*[0;1]/m);

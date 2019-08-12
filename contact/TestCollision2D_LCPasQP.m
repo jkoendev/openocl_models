@@ -22,7 +22,7 @@ for t=0:h:3
   
   % solve LCP using quadprog
   M = h^2 / m;
-  q = p0(2)+h*v0(2)-h^2/g;
+  q = p0(2)+h*v0(2)-h^2*g;
   
   opt = optimoptions('quadprog');
   opt.Display = 'off';
