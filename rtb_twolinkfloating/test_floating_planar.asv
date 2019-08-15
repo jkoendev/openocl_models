@@ -1,28 +1,22 @@
 
-[ floating_planar ] = mdl_floating_planar();
+floating_planar = mdl_floating_planar();
 
 floating_planar.fast = 0;
-
-q = floating_planar.qn;
-dq = 0*q;
-tau = 0*q;
-ddq = floating_planar.accel(q,dq,tau);
-
 
 figure;
 plot_floating(floating_planar,floating_planar.qn)
 
-
-floating_planar.iscsym = 1;
-
 n = floating_planar.n;
 
-q = CasadiArithmetic.Matrix([1,n]);
-dq = CasadiArithmetic.Matrix([1,n]);
-tau = CasadiArithmetic.Matrix([1,n]);
+q_sym = sym('q', [1,n], 'real');
+qd_sym = sym('qd', [1,n], 'real');
+tau_sym = sym('qdd', [1,n], 'real');
 
 
-ddq = floating_planar.accel(q,dq,tau);
+addpath(genpath('twolinkfloating'));
+
+floating_planar.sym;
+ddq = floating_planar.nofriction.accel(q_sym,qd_sym,tau_sym);
 
 
 ode_fun = casadi.Function('fun',{q.value,dq.value,tau.value},{ddq.value});
