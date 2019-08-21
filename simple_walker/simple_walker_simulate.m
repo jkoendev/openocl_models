@@ -10,7 +10,7 @@ qd = zeros(6,1);
 
 y = [q;qd];
 
-tspan = linspace(0,3,100);
+tspan = linspace(0,2,100);
 options = odeset('Mass', @(t,y) blkdiag(eye(6), sw_model_M(y(1:6))) );
 [t,Y] = ode45(@simple_walker_ode, tspan, y, options);
 
