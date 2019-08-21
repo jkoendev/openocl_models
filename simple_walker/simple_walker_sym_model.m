@@ -47,10 +47,7 @@ M = jacobian(partial_L_by_partial_qdot, qd);
 %   external force fe
 
 % contact jacobians
-Jc1y = jacobian(p1y, q);
-Jc2y = jacobian(p2y, q);
-
-Jcy = [Jc1y;Jc2y];
+Jc = jacobian([p1x, p1y, p2x, p2y], q);
 
 % motor inputs
 tau = sym('tau', [2,1], 'real');
@@ -64,9 +61,9 @@ fm = [0;0;tau; Kms*(r1s-r1) - Kmd*(r1d); Kms*(r2s-r2) - Kmd*(r2d)];
 
 % contact force as input
 % external forces
-syms fc1y fc2y real
-fc = [fc1y; fc2y];
-fe = Jcy.' * fc + fm;
+syms fc1x fc1y fc2x fc2y real
+fc = [fc1x; fc1y; fc2x; fc2y];
+fe = Jc.' * fc + fm;
 
 u = [tau; r1s; r2s; fc];
 
@@ -79,7 +76,7 @@ matlabFunction(M, 'file', 'sw_model_M', 'Vars', {q});
 matlabFunction(fe, 'file', 'sw_model_fe', 'Vars', {q,qd,u});
 matlabFunction(pc, 'file', 'sw_model_pc', 'Vars', {q});
 
-matlabFunction([p1x;p1y], [p2x;p2y], 'file', 'sw_model_fkine', 'Vars', {q});
+matlabFunction([p1x;p1y], [p2x;p2y], [v1x;v1y], [v2x;v2y], 'file', 'sw_model_fkine', 'Vars', {q,qd});
 
 
 

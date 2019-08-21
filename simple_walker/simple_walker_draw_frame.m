@@ -1,7 +1,7 @@
-function simple_walker_draw_frame(h, q)
+function simple_walker_draw_frame(h, q, qd)
 
 p0 = [q(1);q(2)];
-[p1, p2] = sw_model_fkine(q);
+[p1, p2, ~, ~] = sw_model_fkine(q, qd);
 
 set(h{1}, 'Xdata', p0(1), 'Ydata', p0(2));   % center
 set(h{2}, 'Xdata', p1(1), 'Ydata', p1(2)); % foot 1
