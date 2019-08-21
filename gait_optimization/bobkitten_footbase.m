@@ -59,9 +59,5 @@ function bobkitten_footbase
   f1_init = 0;
   f2_init = 0;
 
-  p = p1(p0_init, 0, conf.r1);
 end
 
-function p = p1(p0, q0, r1)
-  p = p0 + 
-end

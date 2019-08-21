@@ -1,6 +1,6 @@
-function h = simple_walker_draw_prepare()
+function [fig,h] = simple_walker_draw_prepare()
 
-figure; hold on; 
+fig = figure; hold on; 
 h1 = plot(0,0, 'or'); % center
 h2 = plot(0,0, 'og'); % foot 1
 h3 = plot(0,0, 'ob'); % foot 2
