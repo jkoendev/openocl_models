@@ -6,6 +6,9 @@ mc = 1.0;
 m1 = 0.1;
 m2 = 0.1;
 
+r1e = 1.0;
+r2e = 1.0;
+
 g = 9.81;
 
 p1x = px + r1 * sin(theta1);
@@ -49,16 +52,13 @@ M = jacobian(partial_L_by_partial_qdot, qd);
 % contact jacobians
 Jc = jacobian([p1x, p1y, p2x, p2y], q);
 
-% motor inputs
-syms tau1 tau2 real
-
-% control setpoint 
-syms r1s r2s real
+% motor inputs, control setpoint 
+syms tau r1tau r2tau real
 Kms = 100;      % motor stiffness
 Kmd = 10;       % motor damping
 Ktaud = 10;
 
-fm = [0;0; tau1-Ktaud*theta1d; tau2-Ktaud*theta2d; Kms*(r1s-r1) - Kmd*(r1d); Kms*(r2s-r2) - Kmd*(r2d)];
+fm = [0;0; tau - Ktaud*theta1d; -tau - Ktaud*theta2d; Kms*(r1e-r1) - Kmd*(r1d) + r1tau; Kms*(r2e-r2) - Kmd*(r2d) + r2tau];
 
 % contact force as input
 % external forces
@@ -66,7 +66,7 @@ syms fc1x fc1y fc2x fc2y real
 fc = [fc1x; fc1y; fc2x; fc2y];
 fe = Jc.' * fc + fm;
 
-u = [tau1; tau2; r1s; r2s; fc];
+u = [tau; r1tau; r2tau; fc];
 
 % contact points
 pc = [p1y; p2y];

@@ -19,7 +19,7 @@ fcx = -fcy .* vcx .* 100;
 fcx = min(fcx, fcx_max);
 
 % control inputs (with contact forces)
-u = [0;0;1;1;fcx(1);fcy(1);fcx(2);fcy(2)];
+u = [0;1;1;fcx(1);fcy(1);fcx(2);fcy(2)];
 
 fe = sw_model_fe(q,qd,u);
 C = sw_model_C(q,qd);
