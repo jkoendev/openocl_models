@@ -18,10 +18,10 @@ p2x = px + r2 * sin(theta2);
 p2y = py - r2 * cos(theta2);
 
 v1x = jacobian(p1x, [px, theta1, r1]) * [vx; theta1d; r1d];
-v1y = jacobian(p1y, [px, theta1, r1]) * [vx; theta1d; r1d];
+v1y = jacobian(p1y, [py, theta1, r1]) * [vy; theta1d; r1d];
 
 v2x = jacobian(p2x, [px, theta2, r2]) * [vx; theta2d; r2d];
-v2y = jacobian(p2y, [px, theta2, r2]) * [vx; theta2d; r2d];
+v2y = jacobian(p2y, [py, theta2, r2]) * [vy; theta2d; r2d];
 
 Kc = .5 * mc * (vx^2 + vy^2);
 K1 = .5 * m1 * (v1x^2 + v1y^2);
@@ -54,11 +54,11 @@ Jc = jacobian([p1x, p1y, p2x, p2y], q);
 
 % motor inputs, control setpoint 
 syms tau r1tau r2tau real
-Kms = 100;      % motor stiffness
-Kmd = 10;       % motor damping
+Kms = 300;      % motor stiffness
+Kmd = 30;       % motor damping
 Ktaud = 10;
 
-fm = [0;0; tau - Ktaud*theta1d; -tau - Ktaud*theta2d; Kms*(r1e-r1) - Kmd*(r1d) + r1tau; Kms*(r2e-r2) - Kmd*(r2d) + r2tau];
+fm = [0;0; tau - Ktaud*theta1d; -tau - Ktaud*theta2d; Kms*(r1e-r1) - Kmd*(r1d) + r1tau*100; Kms*(r2e-r2) - Kmd*(r2d) + r2tau*100];
 
 % contact force as input
 % external forces

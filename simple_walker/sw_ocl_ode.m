@@ -9,18 +9,23 @@ qd = [x.v; x.theta1d; x.theta2d; x.r1d; x.r2d];
 [p1,p2,v1,v2] = sw_model_fkine(q,qd);
 pcy = [p1(2); p2(2)];
 vcx = [v1(1); v2(1)];
+vcy = [v1(2); v2(2)];
 
-fcy = (tanh(-pcy*E)+1)/2 .* abs(pcy) .* E;
+% fcy = (tanh(-pcy*E)+1)/2 .* abs(pcy) .* E;
+fcy = log(1+2.^(-pcy*E)) ./ log(2);
+
+% damping 
+fcy = fcy - fcy.*vcy;
 
 % static friction
 mu_s = 1;
 % fcx_max = fcy*mu_s;
-fcx = -fcy .* vcx .* E;
+fcx = -fcy .* vcx .* E / 10;
 
 % control inputs (with contact forces)
-tau = 0;
-r1tau = 0;
-r2tau = 0;
+tau = u.tau;
+r1tau = u.r1tau;
+r2tau = u.r2tau;
 sw_u = [tau;r1tau;r2tau;fcx(1);fcy(1);fcx(2);fcy(2)];
 
 fe = sw_model_fe(q, qd, sw_u);
