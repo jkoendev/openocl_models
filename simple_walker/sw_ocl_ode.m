@@ -15,7 +15,7 @@ vcy = [v1(2); v2(2)];
 fcy = log(1+2.^(-pcy*E)) ./ log(2);
 
 % damping 
-fcy = fcy - fcy.*vcy;
+fcy = fcy + fcy.*10.* log(1+2.^(-vcy.*10)) ./ log(2)./10;
 
 % static friction
 mu_s = 1;
