@@ -61,7 +61,7 @@ if record_video
 end
 
 x_max = max(vars.states.p(:).value)+1;
-[fig,h] = simple_walker_draw_prepare([-x_max, x_max, -0.1, 2*x_max-0.1]);
+[fig,handle] = simple_walker_draw_prepare([-x_max, x_max, -0.1, 2*x_max-0.1]);
 
 t = times.states.value;
 
@@ -84,7 +84,7 @@ for k=2:length(t)
   q = [p; theta1; theta2; r1; r2];
   qd = [v; theta1d; theta2d; r1d; r2d];
   
-  simple_walker_draw_frame(h, q, qd)
+  simple_walker_draw_frame(handle, q, qd)
   
   if record_video
     frame = getframe(fig);
