@@ -48,7 +48,7 @@ for k=1:length(E_list)
 end
 
 
-%% plot solution
+%% plot solution 
 if ~exist('record_video', 'var')
   record_video = false;
 end
