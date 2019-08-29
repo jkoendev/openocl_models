@@ -1,3 +1,5 @@
+% ocl version: c12a481db2e4d60b65f2c43e74986b4dac4a4491
+
 opts = struct;
 opts.ipopt = struct;
 opts.ipopt.warm_start_init_point = 'yes';
@@ -9,13 +11,13 @@ solver = ocl.Solver(0.5, ...
   @sw_ocl_ode, @sw_ocl_pathcost, 'N', 100, 'd', 2, ...
   'casadi_options', opts);
 
-solver.setInitialState('p', [0, 1]);
+solver.setInitialState('p', [0; 1]);
 solver.setInitialState('theta1', 0*pi/180);
 solver.setInitialState('theta2', 20*pi/180);
 solver.setInitialState('r1', 1);
 solver.setInitialState('r2', 1);
 
-solver.setInitialState('v', [1,0]);
+solver.setInitialState('v', [1;0]);
 solver.setInitialState('theta1d', 0);
 solver.setInitialState('theta2d', 0);
 solver.setInitialState('r1d', 0);
@@ -26,7 +28,7 @@ solver.setEndBounds('theta2', 0*pi/180);
 solver.setEndBounds('r1', 1);
 solver.setEndBounds('r2', 1);
 
-solver.setEndBounds('v', [1,0]);
+solver.setEndBounds('v', [1;0]);
 solver.setEndBounds('theta1d', 0);
 solver.setEndBounds('theta2d', 0);
 solver.setEndBounds('r1d', 0);
@@ -65,17 +67,19 @@ t = times.states.value;
 
 for k=2:length(t)
   
-  p = vars.states.p(:,:,k).value;
-  theta1 = vars.states.theta1(:,:,k).value;
-  theta2 = vars.states.theta2(:,:,k).value;
-  r1 = vars.states.r1(:,:,k).value;
-  r2 = vars.states.r2(:,:,k).value;
+  x = vars.states{k};
   
-  v = vars.states.v(:,:,k).value;
-  theta1d = vars.states.theta1d(:,:,k).value;
-  theta2d = vars.states.theta2d(:,:,k).value;
-  r1d = vars.states.r1d(:,:,k).value;
-  r2d = vars.states.r2d(:,:,k).value;
+  p = x.p.value;
+  theta1 = x.theta1.value;
+  theta2 = x.theta2.value;
+  r1 = x.r1.value;
+  r2 = x.r2.value;
+  
+  v = x.v.value;
+  theta1d = x.theta1d.value;
+  theta2d = x.theta2d.value;
+  r1d = x.r1d.value;
+  r2d = x.r2d.value;
 
   q = [p; theta1; theta2; r1; r2];
   qd = [v; theta1d; theta2d; r1d; r2d];
