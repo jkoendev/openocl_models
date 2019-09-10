@@ -1,4 +1,4 @@
-function sw_ocl_ode(odeh, x, z, u, p)
+function sw_ocl_sd_ode_damped(odeh, x, z, u, p)
 
 E = p.E;
 

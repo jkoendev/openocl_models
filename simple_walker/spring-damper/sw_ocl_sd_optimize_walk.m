@@ -6,45 +6,45 @@ opts.ipopt.warm_start_init_point = 'yes';
 opts.ipopt.mu_target = 0.1;
 opts.ipopt.mu_init = 0.1;
 
-solver = ocl.Solver(0.5, ...
+ocp = ocl.Problem(0.5, ...
   @sw_ocl_sd_vars, ....
   @sw_ocl_sd_ode, @sw_ocl_sd_pathcost, 'N', 100, 'd', 2, ...
   'casadi_options', opts);
 
-solver.setInitialState('p', [0; 1]);
-solver.setInitialState('theta1', 0*pi/180);
-solver.setInitialState('theta2', 20*pi/180);
-solver.setInitialState('r1', 1);
-solver.setInitialState('r2', 1);
+ocp.setInitialState('p', [0; 1]);
+ocp.setInitialState('theta1', 0*pi/180);
+ocp.setInitialState('theta2', 20*pi/180);
+ocp.setInitialState('r1', 1);
+ocp.setInitialState('r2', 1);
 
-solver.setInitialState('v', [1;0]);
-solver.setInitialState('theta1d', 0);
-solver.setInitialState('theta2d', 0);
-solver.setInitialState('r1d', 0);
-solver.setInitialState('r2d', 0);
+ocp.setInitialState('v', [1;0]);
+ocp.setInitialState('theta1d', 0);
+ocp.setInitialState('theta2d', 0);
+ocp.setInitialState('r1d', 0);
+ocp.setInitialState('r2d', 0);
 
-solver.setEndBounds('theta1', 20*pi/180);
-solver.setEndBounds('theta2', 0*pi/180);
-solver.setEndBounds('r1', 1);
-solver.setEndBounds('r2', 1);
+ocp.setEndBounds('theta1', 20*pi/180);
+ocp.setEndBounds('theta2', 0*pi/180);
+ocp.setEndBounds('r1', 1);
+ocp.setEndBounds('r2', 1);
 
-solver.setEndBounds('v', [1;0]);
-solver.setEndBounds('theta1d', 0);
-solver.setEndBounds('theta2d', 0);
-solver.setEndBounds('r1d', 0);
-solver.setEndBounds('r2d', 0);
+ocp.setEndBounds('v', [1;0]);
+ocp.setEndBounds('theta1d', 0);
+ocp.setEndBounds('theta2d', 0);
+ocp.setEndBounds('r1d', 0);
+ocp.setEndBounds('r2d', 0);
 
-solver.setBounds('tau', -100, 100);
-solver.setBounds('r1tau', -20, 20);
-solver.setBounds('r2tau', -20, 20);
+ocp.setBounds('tau', -100, 100);
+ocp.setBounds('r1tau', -20, 20);
+ocp.setBounds('r2tau', -20, 20);
 
 E_list = [200, 500, 1000];
-solver.setParameter('E', E_list(1));
-vars = solver.getInitialGuess;
+ocp.setParameter('E', E_list(1));
+vars = ocp.getInitialGuess;
 
 for k=1:length(E_list)
-  solver.setParameter('E', E_list(k));
-  [vars, times] = solver.solve(vars);  
+  ocp.setParameter('E', E_list(k));
+  [vars, times] = ocp.solve(vars);  
 end
 
 

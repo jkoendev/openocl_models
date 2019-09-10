@@ -6,7 +6,7 @@ q = y(1:6);
 qd = y(7:12);
 
 % contact points
-[p1,p2,v1,v2] = sw_model_fkine(q,qd);
+[p1,p2,v1,v2,~,~] = sw_model_fkine(q,qd,0*qd);
 pcy = [p1(2); p2(2)];
 vcx = [v1(1); v2(1)];
 

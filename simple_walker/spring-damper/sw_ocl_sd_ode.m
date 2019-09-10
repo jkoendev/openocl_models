@@ -1,4 +1,4 @@
-function sw_ocl_ode(odeh, x, z, u, p)
+function sw_ocl_sd_ode(odeh, x, z, u, p)
 
 E = p.E;
 
@@ -6,7 +6,7 @@ q = [x.p; x.theta1; x.theta2; x.r1; x.r2];
 qd = [x.v; x.theta1d; x.theta2d; x.r1d; x.r2d];
 
 % contact points
-[p1,p2,v1,v2] = sw_model_fkine(q,qd);
+[p1,p2,v1,v2,~,~] = sw_model_fkine(q,qd,0*qd);
 pcy = [p1(2); p2(2)];
 vcx = [v1(1); v2(1)];
 vcy = [v1(2); v2(2)];
@@ -25,10 +25,7 @@ r1tau = u.r1tau;
 r2tau = u.r2tau;
 sw_u = [tau;r1tau;r2tau;fcx(1);fcy(1);fcx(2);fcy(2)];
 
-fe = sw_model_fe(q, qd, sw_u);
-C = sw_model_C(q, qd);
-
-qdd = C + fe;
+qdd = sw_model_fe(q, qd, sw_u);
 
 yd = [qd;qdd];
 
