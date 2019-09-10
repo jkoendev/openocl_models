@@ -44,7 +44,12 @@ vars = ocp.getInitialGuess;
 
 for k=1:length(E_list)
   ocp.setParameter('E', E_list(k));
-  [vars, times] = ocp.solve(vars);  
+  [vars, times, info] = ocp.solve(vars);
+  
+  if ~info.success
+    disp('Solver not converged.')
+    return;
+  end
 end
 
 
