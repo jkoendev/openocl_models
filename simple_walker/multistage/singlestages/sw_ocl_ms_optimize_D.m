@@ -3,6 +3,8 @@ ocp = ocl.Problem(2, ...
   @sw_ocl_ms_vars_D, ....
   @sw_ocl_ms_dae_D, 'N', 50, 'd', 2);
 
+ocp.setInitialState('time', 0);
+
 angle = 30*pi/180;
 
 ocp.setInitialBounds('p', [0; cos(angle)]);

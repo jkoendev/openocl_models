@@ -32,6 +32,8 @@ daeh.setODE('theta2d', qdd(4));
 daeh.setODE('r1d', qdd(5));
 daeh.setODE('r2d', qdd(6));
 
+daeh.setODE('time', 1);
+
 daeh.setAlgEquation(M*qdd-C-fe);
 
 daeh.setAlgEquation(a1(1));

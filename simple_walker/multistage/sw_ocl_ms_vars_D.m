@@ -12,6 +12,8 @@ vh.addState('theta2d');
 vh.addState('r1d');
 vh.addState('r2d');
 
+vh.addState('time');
+
 vh.addControl('tau');
 vh.addControl('r1tau');
 vh.addControl('r2tau');

@@ -3,6 +3,8 @@ ocp = ocl.Problem(2, ...
   @sw_ocl_ms_vars_R, ....
   @sw_ocl_ms_dae_R, 'N', 50, 'd', 2);
 
+ocp.setInitialState('time', 0);
+
 ocp.setInitialBounds('p', [0;1]);
 ocp.setInitialState('theta1', -50*pi/180);
 ocp.setInitialState('theta2', 0*pi/180);

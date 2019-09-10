@@ -1,44 +1,41 @@
 
-ocp = ocl.Problem(2, ...
+stageL = ocl.Stage([], ...
   @sw_ocl_ms_vars_L, ....
   @sw_ocl_ms_dae_L, 'N', 50, 'd', 2);
 
-ocp.setInitialBounds('p', [0;1]);
-ocp.setInitialState('theta1', 0*pi/180);
-ocp.setInitialState('theta2', 50*pi/180);
-ocp.setInitialState('r1', 1);
-ocp.setInitialState('r2', 1);
+stageL.setInitialStateBounds('time', 0);
 
-ocp.setInitialState('v', [0;0]);
-ocp.setInitialState('theta1d', 0);
-ocp.setInitialState('theta2d', 0);
-ocp.setInitialState('r1d', 0);
-ocp.setInitialState('r2d', 0);
+stageL.setInitialStateBounds('p', [0;1]);
+stageL.setInitialStateBounds('theta1', 0*pi/180);
+stageL.setInitialStateBounds('theta2', 50*pi/180);
+stageL.setInitialStateBounds('r1', 1);
+stageL.setInitialStateBounds('r2', 1);
 
-ocp.setBounds('tau', 0);
-ocp.setBounds('r1tau', 0);
-ocp.setBounds('r2tau', 0);
+stageL.setInitialStateBounds('v', [0;0]);
+stageL.setInitialStateBounds('theta1d', 0);
+stageL.setInitialStateBounds('theta2d', 0);
+stageL.setInitialStateBounds('r1d', 0);
+stageL.setInitialStateBounds('r2d', 0);
 
-% stage1.setBounds('lambda1_y', 0, inf);
-% 
-% stage2 = ocl.Stage([], ...
-%   @sw_ocl_mpcc_vars_D, ....
-%   @sw_ocl_mpcc_dae_D, 'N', 20, 'd', 2);
+stageL.setControlBounds('tau', 0);
+stageL.setControlBounds('r1tau', 0);
+stageL.setControlBounds('r2tau', 0);
+
+stageD = ocl.Stage([], ...
+  @sw_ocl_ms_vars_D, ....
+  @sw_ocl_ms_dae_D, 'N', 50, 'd', 2);
+
+stageD.setControlBounds('tau', 0);
+stageD.setControlBounds('r1tau', 0);
+stageD.setControlBounds('r2tau', 0);
+
+stageD.setEndStateBounds('time', 0.2);
+
+ocp = ocl.MultiStageProblem({stageL,stageD}, {@sw_ocl_ms_transition_LD});
 
 vars = ocp.getInitialGuess();
 
-vars.states.p.set([0;1.4]);
-vars.states.theta1.set(0*pi/180);
-vars.states.theta2.set(20*pi/180);
-vars.states.r1.set(1);
-vars.states.r2.set(1);
-
-[vars, times, info] = ocp.solve(vars); 
-
-if ~info.success
-  disp('Not solution found.')
-  return;
-end
+[vars, times] = ocp.solve(vars); 
 
 %% plot solution 
 if ~exist('record_video', 'var')
