@@ -1,5 +1,5 @@
 
-stageL = ocl.Stage([], ...
+stageL = ocl.Stage(1, ...
   @sw_ocl_ms_vars_L, ....
   @sw_ocl_ms_dae_L, 'N', 50, 'd', 2);
 
@@ -21,15 +21,15 @@ stageL.setControlBounds('tau', 0);
 stageL.setControlBounds('r1tau', 0);
 stageL.setControlBounds('r2tau', 0);
 
-stageD = ocl.Stage([], ...
-  @sw_ocl_ms_vars_D, ....
-  @sw_ocl_ms_dae_D, 'N', 50, 'd', 2);
+stageD = ocl.Stage(1, ...
+  @sw_ocl_ms_vars_L, ....
+  @sw_ocl_ms_dae_L, 'N', 50, 'd', 2);
 
 stageD.setControlBounds('tau', 0);
 stageD.setControlBounds('r1tau', 0);
 stageD.setControlBounds('r2tau', 0);
 
-stageD.setEndStateBounds('time', 0.2);
+% stageD.setEndStateBounds('time', 0.2);
 
 ocp = ocl.MultiStageProblem({stageL,stageD}, {@sw_ocl_ms_transition_LD});
 

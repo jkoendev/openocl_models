@@ -1,5 +1,5 @@
 
-ocp = ocl.Problem(2, ...
+ocp = ocl.Problem([], ...
   @sw_ocl_ms_vars_L, ....
   @sw_ocl_ms_dae_L, 'N', 50, 'd', 2);
 
@@ -20,6 +20,8 @@ ocp.setInitialState('r2d', 0);
 ocp.setBounds('tau', 0);
 ocp.setBounds('r1tau', 0);
 ocp.setBounds('r2tau', 0);
+
+ocp.setEndBounds('time', 2);
 
 vars = ocp.getInitialGuess();
 
