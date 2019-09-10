@@ -2,7 +2,7 @@ if ~exist('record_video', 'var')
   record_video = false;
 end
   
-T = 2;
+T = 5;
 N = 100;
 
 if record_video

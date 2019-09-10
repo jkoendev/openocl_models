@@ -1,6 +1,6 @@
-function yd = simple_walker_ode(~,y)
+function yd = simple_walker_ode(t,y)
 
-E = 500;
+E = 10;
 
 q = y(1:6);
 qd = y(7:12);
@@ -15,14 +15,21 @@ vcy = [v1(2); v2(2)];
 % fcy = (sign(-pcy)+1)/2 .* abs(pcy) .* E;
 fcy = log(1+2.^(-pcy*E)) ./ log(2);
 
-% damping 
+% damping unilateral
 fcy = fcy + fcy.*10.* log(1+2.^(-vcy.*10)) ./ log(2)./10;
+
+% damping 
+% fcy = fcy + fcy.*10.*(-vcy);
 
 % static friction
 mu_s = 1;
 fcx_max = fcy*mu_s;
 fcx = -fcy .* vcx .* 100;
 fcx = min(fcx, fcx_max);
+
+if t > 3
+  fcy = fcy + 10;
+end
 
 % control inputs (with contact forces)
 u = [0;0;0;fcx(1);fcy(1);fcx(2);fcy(2)];
