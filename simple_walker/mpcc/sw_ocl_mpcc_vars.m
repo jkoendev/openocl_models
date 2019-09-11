@@ -16,11 +16,13 @@ vh.addControl('tau');
 vh.addControl('r1tau');
 vh.addControl('r2tau');
 
+vh.addAlgVar('qdd', [6,1]);
+
 % vh.addAlgVar('lambda1_x');
 vh.addAlgVar('lambda1_y');
 
 % vh.addAlgVar('lambda2_x');
-vh.addAlgVar('lambda2_y');
+% vh.addAlgVar('lambda2_y');
 
-vh.addAlgVar('p1y');
-vh.addAlgVar('p2y');
+% vh.addAlgVar('p1y');
+% vh.addAlgVar('p2y');

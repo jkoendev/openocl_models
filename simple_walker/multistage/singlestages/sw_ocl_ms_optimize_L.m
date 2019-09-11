@@ -1,7 +1,10 @@
 
 ocp = ocl.Problem([], ...
   @sw_ocl_ms_vars_L, ....
-  @sw_ocl_ms_dae_L, 'N', 50, 'd', 2);
+  @sw_ocl_ms_dae_L, ...
+  @sw_ocl_ms_pathcosts, ...
+  'gridconstraints', @sw_ocl_ms_gridconstraints_L, ...
+  'N', 50, 'd', 2);
 
 ocp.setInitialState('time', 0);
 
@@ -17,19 +20,19 @@ ocp.setInitialState('theta2d', 0);
 ocp.setInitialState('r1d', 0);
 ocp.setInitialState('r2d', 0);
 
-ocp.setBounds('tau', 0);
-ocp.setBounds('r1tau', 0);
-ocp.setBounds('r2tau', 0);
+ocp.setBounds('tau', -10,10);
+ocp.setBounds('r1tau', -1, 1);
+ocp.setBounds('r2tau', -1, 1);
 
-ocp.setEndBounds('time', 2);
+ocp.setEndBounds('time', 3);
 
 vars = ocp.getInitialGuess();
 
-vars.states.p.set([0;1.4]);
-vars.states.theta1.set(0*pi/180);
-vars.states.theta2.set(20*pi/180);
-vars.states.r1.set(1);
-vars.states.r2.set(1);
+% vars.states.p.set([0;1.4]);
+% vars.states.theta1.set(0*pi/180);
+% vars.states.theta2.set(20*pi/180);
+% vars.states.r1.set(1);
+% vars.states.r2.set(1);
 
 [vars, times, info] = ocp.solve(vars); 
 

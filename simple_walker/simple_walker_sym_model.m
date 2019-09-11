@@ -57,11 +57,11 @@ Jc = jacobian([p1x, p1y, p2x, p2y], q);
 
 % motor inputs, control setpoint 
 syms tau r1tau r2tau real
-Kms = 300;      % motor stiffness
-Kmd = 30;       % motor damping
+Kms = 500;      % motor stiffness
+Kmd = 100;       % motor damping
 Ktaud = 10;
 
-fm = [0;0; tau - Ktaud*theta1d; -tau - Ktaud*theta2d; Kms*(r1e-r1) - Kmd*(r1d) + r1tau*100; Kms*(r2e-r2) - Kmd*(r2d) + r2tau*100];
+fm = [0;0; tau - Ktaud*theta1d; -tau - Ktaud*theta2d; Kms*(r1e-r1) - Kmd*(r1d) + r1tau*10; Kms*(r2e-r2) - Kmd*(r2d) + r2tau*10];
 
 % contact force as input
 % external forces
@@ -83,8 +83,8 @@ matlabFunction(pc, 'file', 'sw_model_pc', 'Vars', {q});
 matlabFunction([p1x;p1y], [p2x;p2y], [v1x;v1y], [v2x;v2y], [a1x;a1y], [a2x;a2y], 'file', 'sw_model_fkine', 'Vars', {q,qd,qdd});
 
 % to solve for qdd analytically
-% sol = solve(M*qdd==C+fe, qdd);
-% qdd_out = [sol.ax sol.ay sol.theta1dd sol.theta2dd sol.r1dd sol.r2dd].';
-% matlabFunction(qdd_out, 'file', 'sw_model_qdd', 'Vars', {q,qd,u});
+sol = solve(M*qdd==C+fe, qdd);
+qdd_out = [sol.ax sol.ay sol.theta1dd sol.theta2dd sol.r1dd sol.r2dd].';
+matlabFunction(qdd_out, 'file', 'sw_model_qdd', 'Vars', {q,qd,u});
 
 

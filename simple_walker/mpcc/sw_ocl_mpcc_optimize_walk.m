@@ -1,11 +1,11 @@
 
-ocp = ocl.Problem(0.3, ...
+ocp = ocl.Problem(0.6, ...
   @sw_ocl_mpcc_vars, ....
-  @sw_ocl_mpcc_dae, @sw_ocl_mpcc_pathcost, 'N', 30, 'd', 2);
+  @sw_ocl_mpcc_dae, @sw_ocl_mpcc_pathcost, 'N', 20, 'd', 2);
 
-ocp.setInitialState('p', [0;1.4]);
+ocp.setInitialState('p', [0;1.1]);
 ocp.setInitialState('theta1', 0*pi/180);
-ocp.setInitialState('theta2', 20*pi/180);
+ocp.setInitialState('theta2', 50*pi/180);
 ocp.setInitialState('r1', 1);
 ocp.setInitialState('r2', 1);
 
@@ -31,23 +31,23 @@ ocp.setBounds('r1tau', 0);
 ocp.setBounds('r2tau', 0);
 
 ocp.setBounds('lambda1_y', 0, inf);
-ocp.setBounds('lambda2_y', 0, inf);
-ocp.setBounds('p1y', 0, inf);
-ocp.setBounds('p2y', 0, inf);
+% ocp.setBounds('lambda2_y', 0, inf);
+% ocp.setBounds('p1y', 0, inf);
+% ocp.setBounds('p2y', 0, inf);
 
 vars = ocp.getInitialGuess();
 
 vars.states.p.set([0;1.4]);
 vars.states.theta1.set(0*pi/180);
-vars.states.theta2.set(20*pi/180);
+vars.states.theta2.set(50*pi/180);
 vars.states.r1.set(1);
 vars.states.r2.set(1);
 
 vars.integrator.algvars.lambda1_y.set(1);
-vars.integrator.algvars.lambda2_y.set(0);
-
-vars.integrator.algvars.p1y.set(0.1);
-vars.integrator.algvars.p2y.set(0.1);
+% vars.integrator.algvars.lambda2_y.set(0);
+% 
+% vars.integrator.algvars.p1y.set(0.1);
+% vars.integrator.algvars.p2y.set(0.1);
 
 [vars, times] = ocp.solve(vars); 
 

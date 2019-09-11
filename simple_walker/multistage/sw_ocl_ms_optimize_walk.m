@@ -1,4 +1,6 @@
 
+
+% first stage
 stageL = ocl.Stage([], ...
   @sw_ocl_ms_vars_L, ....
   @sw_ocl_ms_dae_L, ...
@@ -22,17 +24,36 @@ stageL.setControlBounds('tau', 0);
 stageL.setControlBounds('r1tau', 0);
 stageL.setControlBounds('r2tau', 0);
 
+
+% second stage
 stageD = ocl.Stage([], ...
   @sw_ocl_ms_vars_D, ....
-  @sw_ocl_ms_dae_D, 'N', 20, 'd', 2);
+  @sw_ocl_ms_dae_D, ...
+  @sw_ocl_ms_pathcosts, 'N', 20, 'd', 2);
 
 stageD.setControlBounds('tau', 0);
 stageD.setControlBounds('r1tau', 0);
 stageD.setControlBounds('r2tau', 0);
 
-stageD.setEndStateBounds('time', 1);
+stageD.setEndStateBounds('time', 2);
 
-ocp = ocl.MultiStageProblem({stageL,stageD}, {@sw_ocl_ms_transition_LD});
+% third stage
+stageR = ocl.Stage([], ...
+  @sw_ocl_ms_vars_R, ....
+  @sw_ocl_ms_dae_R, ...
+  @sw_ocl_ms_pathcosts, ... %   'gridconstraints', @sw_ocl_ms_gridconstraints_R, ...
+  'N', 10, 'd', 2);
+
+stageR.setControlBounds('tau', 0);
+stageR.setControlBounds('r1tau', 0);
+stageR.setControlBounds('r2tau', 0);
+
+stageR.setEndStateBounds('time', 2.5);
+
+
+% combined problem
+ocp = ocl.MultiStageProblem({stageL, stageD, stageR}, ... 
+  {@sw_ocl_ms_transition_LD, @sw_ocl_ms_transition_DR});
 
 vars = ocp.getInitialGuess();
 
