@@ -6,7 +6,7 @@ T = 5;
 N = 100;
 
 if record_video
-  filename = ['sim_walker_', datestr(now,'yyyy-mm-dd_HHMMSS')];
+  filename = ['movie/sim_walker_', datestr(now,'yyyy-mm-dd_HHMMSS')];
   video_writer = VideoWriter(filename);
   video_writer.FrameRate = N/T;
   open(video_writer);

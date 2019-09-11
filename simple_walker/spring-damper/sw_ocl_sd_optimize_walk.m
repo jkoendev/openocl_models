@@ -8,7 +8,7 @@ opts.ipopt.mu_init = 0.1;
 
 ocp = ocl.Problem(0.5, ...
   @sw_ocl_sd_vars, ....
-  @sw_ocl_sd_ode, @sw_ocl_sd_pathcost, 'N', 100, 'd', 2, ...
+  @sw_ocl_sd_ode_damped, @sw_ocl_sd_pathcost, 'N', 30, 'd', 2, ...
   'casadi_options', opts);
 
 ocp.setInitialState('p', [0; 1]);
@@ -34,7 +34,7 @@ ocp.setEndBounds('theta2d', 0);
 ocp.setEndBounds('r1d', 0);
 ocp.setEndBounds('r2d', 0);
 
-ocp.setBounds('tau', -100, 100);
+ocp.setBounds('tau', -50, 50);
 ocp.setBounds('r1tau', -20, 20);
 ocp.setBounds('r2tau', -20, 20);
 
@@ -59,7 +59,7 @@ if ~exist('record_video', 'var')
 end
 
 if record_video
-  filename = ['sim_walker_', datestr(now,'yyyy-mm-dd_HHMMSS')];
+  filename = ['movie/sim_walker_', datestr(now,'yyyy-mm-dd_HHMMSS')];
   video_writer = VideoWriter(filename);
   video_writer.FrameRate = N/T;
   open(video_writer);
