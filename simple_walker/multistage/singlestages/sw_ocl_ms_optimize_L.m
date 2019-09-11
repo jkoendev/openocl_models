@@ -1,10 +1,10 @@
 
-ocp = ocl.Problem([], ...
+ocp = ocl.Problem(1, ...
   @sw_ocl_ms_vars_L, ....
   @sw_ocl_ms_dae_L, ...
   @sw_ocl_ms_pathcosts, ...
   'gridconstraints', @sw_ocl_ms_gridconstraints_L, ...
-  'N', 50, 'd', 2);
+  'N', 30, 'd', 2);
 
 ocp.setInitialState('time', 0);
 
@@ -12,7 +12,7 @@ ocp.setInitialBounds('p', [0;1]);
 ocp.setInitialState('theta1', 0*pi/180);
 ocp.setInitialState('theta2', 50*pi/180);
 ocp.setInitialState('r1', 1);
-ocp.setInitialState('r2', 1);
+ocp.setInitialState('r2', 1.8);
 
 ocp.setInitialState('v', [0;0]);
 ocp.setInitialState('theta1d', 0);
@@ -20,11 +20,11 @@ ocp.setInitialState('theta2d', 0);
 ocp.setInitialState('r1d', 0);
 ocp.setInitialState('r2d', 0);
 
-ocp.setBounds('tau', -10,10);
-ocp.setBounds('r1tau', -1, 1);
-ocp.setBounds('r2tau', -1, 1);
+ocp.setBounds('tau', -10, 10);
+ocp.setBounds('r1tau', 0);
+ocp.setBounds('r2tau', 0);
 
-ocp.setEndBounds('time', 3);
+% ocp.setEndBounds('time', 3);
 
 vars = ocp.getInitialGuess();
 

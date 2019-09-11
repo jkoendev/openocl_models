@@ -1,4 +1,4 @@
-function sw_ocl_vars(vh)
+function sw_ocl_sd_vars(vh)
 
 vh.addState('p', [2,1]);
 vh.addState('theta1', 'lb', -30*pi/180, 'ub', 30*pi/180);
@@ -15,5 +15,7 @@ vh.addState('r2d', 'lb', -0.1, 'ub', 0.1);
 vh.addControl('tau');
 vh.addControl('r1tau');
 vh.addControl('r2tau');
+
+vh.addAlgVar('qdd', [6,1]);
 
 vh.addParameter('E');

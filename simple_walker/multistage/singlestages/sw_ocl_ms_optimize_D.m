@@ -22,7 +22,7 @@ ocp.setInitialState('r1d', 0);
 ocp.setInitialState('r2d', 0);
 
 ocp.setBounds('tau', 0);
-ocp.setBounds('r1tau', [30*ones(1,20), 0*ones(1,10), -30*ones(1,20)]);
+ocp.setBounds('r1tau', [3*ones(1,20), 0*ones(1,10), -3*ones(1,20)]);
 ocp.setBounds('r2tau', 0);
 
 vars = ocp.getInitialGuess();

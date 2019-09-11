@@ -1,12 +1,13 @@
-function sw_ocl_sd_ode_damped(odeh, x, z, u, p)
+function sw_ocl_sd_dae_damped(daeh, x, z, u, p)
 
 E = p.E;
 
 q = [x.p; x.theta1; x.theta2; x.r1; x.r2];
 qd = [x.v; x.theta1d; x.theta2d; x.r1d; x.r2d];
+qdd = z.qdd;
 
 % contact points
-[p1,p2,v1,v2] = sw_model_fkine(q,qd);
+[p1,p2,v1,v2] = sw_model_fkine(q,qd,0*qd);
 pcy = [p1(2); p2(2)];
 vcx = [v1(1); v2(1)];
 vcy = [v1(2); v2(2)];
@@ -28,21 +29,20 @@ r1tau = u.r1tau;
 r2tau = u.r2tau;
 sw_u = [tau;r1tau;r2tau;fcx(1);fcy(1);fcx(2);fcy(2)];
 
+M = sw_model_M(q);
 fe = sw_model_fe(q, qd, sw_u);
 C = sw_model_C(q, qd);
 
-qdd = C + fe;
+daeh.setODE('p', qd(1:2));
+daeh.setODE('theta1', qd(3));
+daeh.setODE('theta2', qd(4));
+daeh.setODE('r1', qd(5));
+daeh.setODE('r2', qd(6));
 
-yd = [qd;qdd];
+daeh.setODE('v', qdd(1:2));
+daeh.setODE('theta1d', qdd(3));
+daeh.setODE('theta2d', qdd(4));
+daeh.setODE('r1d', qdd(5));
+daeh.setODE('r2d', qdd(6));
 
-odeh.setODE('p', yd(1:2));
-odeh.setODE('theta1', yd(3));
-odeh.setODE('theta2', yd(4));
-odeh.setODE('r1', yd(5));
-odeh.setODE('r2', yd(6));
-
-odeh.setODE('v', yd(7:8));
-odeh.setODE('theta1d', yd(9));
-odeh.setODE('theta2d', yd(10));
-odeh.setODE('r1d', yd(11));
-odeh.setODE('r2d', yd(12));
+daeh.setAlgEquation(M*qdd-C-fe);

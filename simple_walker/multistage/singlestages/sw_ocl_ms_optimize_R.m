@@ -17,7 +17,7 @@ ocp.setInitialState('theta2d', 0);
 ocp.setInitialState('r1d', 0);
 ocp.setInitialState('r2d', 0);
 
-ocp.setBounds('tau', 5);
+ocp.setBounds('tau', 2);
 ocp.setBounds('r1tau', 0);
 ocp.setBounds('r2tau', 0);
 

@@ -1,10 +1,12 @@
 
 
 % first stage
-stageL = ocl.Stage([], ...
+stageL = ocl.Stage(1, ...
   @sw_ocl_ms_vars_L, ....
   @sw_ocl_ms_dae_L, ...
-  'gridconstraints', @sw_ocl_ms_gridconstraints_L, 'N', 20, 'd', 2);
+  @sw_ocl_ms_pathcosts, ...
+  'gridconstraints', @sw_ocl_ms_gridconstraints_L, ...
+  'N', 30, 'd', 2);
 
 stageL.setInitialStateBounds('time', 0);
 
@@ -20,13 +22,13 @@ stageL.setInitialStateBounds('theta2d', 0);
 stageL.setInitialStateBounds('r1d', 0);
 stageL.setInitialStateBounds('r2d', 0);
 
-stageL.setControlBounds('tau', 0);
+stageL.setControlBounds('tau', -10, 10);
 stageL.setControlBounds('r1tau', 0);
 stageL.setControlBounds('r2tau', 0);
 
 
 % second stage
-stageD = ocl.Stage([], ...
+stageD = ocl.Stage(1, ...
   @sw_ocl_ms_vars_D, ....
   @sw_ocl_ms_dae_D, ...
   @sw_ocl_ms_pathcosts, 'N', 20, 'd', 2);
@@ -35,25 +37,27 @@ stageD.setControlBounds('tau', 0);
 stageD.setControlBounds('r1tau', 0);
 stageD.setControlBounds('r2tau', 0);
 
-stageD.setEndStateBounds('time', 2);
+% stageD.setEndStateBounds('time', 2);
 
 % third stage
 stageR = ocl.Stage([], ...
   @sw_ocl_ms_vars_R, ....
   @sw_ocl_ms_dae_R, ...
-  @sw_ocl_ms_pathcosts, ... %   'gridconstraints', @sw_ocl_ms_gridconstraints_R, ...
   'N', 10, 'd', 2);
 
 stageR.setControlBounds('tau', 0);
-stageR.setControlBounds('r1tau', 0);
+stageR.setControlBounds('r1tau', 0.0);
 stageR.setControlBounds('r2tau', 0);
 
-stageR.setEndStateBounds('time', 2.5);
+stageR.setEndStateBounds('time', 3);
 
 
 % combined problem
-ocp = ocl.MultiStageProblem({stageL, stageD, stageR}, ... 
-  {@sw_ocl_ms_transition_LD, @sw_ocl_ms_transition_DR});
+% ocp = ocl.MultiStageProblem({stageL, stageD, stageR}, ... 
+%   {@sw_ocl_ms_transition_LD, @sw_ocl_ms_transition_DR});
+
+ocp = ocl.MultiStageProblem({stageL, stageD}, ... 
+  {@sw_ocl_ms_transition_LD});
 
 vars = ocp.getInitialGuess();
 

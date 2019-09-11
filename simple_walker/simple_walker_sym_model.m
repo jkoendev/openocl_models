@@ -1,3 +1,5 @@
+
+
 syms px py theta1 theta2 r1 r2 real
 syms vx vy theta1d theta2d r1d r2d real
 syms ax ay theta1dd theta2dd r1dd r2dd real
@@ -7,8 +9,8 @@ qd = [vx vy theta1d theta2d r1d r2d].';
 qdd = [ax ay theta1dd theta2dd r1dd r2dd].';
 
 mc = 1.0;
-m1 = 1;
-m2 = 1;
+m1 = 0.1;
+m2 = 0.1;
 
 r1e = 1.0;
 r2e = 1.0;
@@ -57,11 +59,11 @@ Jc = jacobian([p1x, p1y, p2x, p2y], q);
 
 % motor inputs, control setpoint 
 syms tau r1tau r2tau real
-Kms = 500;      % motor stiffness
-Kmd = 100;       % motor damping
+Kms = 1000;      % motor stiffness
+Kmd = 300;       % motor damping
 Ktaud = 10;
 
-fm = [0;0; tau - Ktaud*theta1d; -tau - Ktaud*theta2d; Kms*(r1e-r1) - Kmd*(r1d) + r1tau*10; Kms*(r2e-r2) - Kmd*(r2d) + r2tau*10];
+fm = [0;0; tau - Ktaud*theta1d; tau - Ktaud*theta2d; Kms*(r1e-r1) - Kmd*(r1d) + r1tau*100; Kms*(r2e-r2) - Kmd*(r2d) + r2tau*100];
 
 % contact force as input
 % external forces
@@ -75,16 +77,19 @@ u = [tau; r1tau; r2tau; fc];
 pc = [p1y; p2y];
 
 % generate model functions
-matlabFunction(C, 'file', 'sw_model_C', 'Vars', {q;qd});
-matlabFunction(M, 'file', 'sw_model_M', 'Vars', {q});
-matlabFunction(fe, 'file', 'sw_model_fe', 'Vars', {q,qd,u});
-matlabFunction(pc, 'file', 'sw_model_pc', 'Vars', {q});
+this_path = fileparts(which('simple_walker_sym_model'));
 
-matlabFunction([p1x;p1y], [p2x;p2y], [v1x;v1y], [v2x;v2y], [a1x;a1y], [a2x;a2y], 'file', 'sw_model_fkine', 'Vars', {q,qd,qdd});
+
+matlabFunction(C, 'file', fullfile(this_path, 'sw_model_C'), 'Vars', {q;qd});
+matlabFunction(M, 'file', fullfile(this_path, 'sw_model_M'), 'Vars', {q});
+matlabFunction(fe, 'file', fullfile(this_path, 'sw_model_fe'), 'Vars', {q,qd,u});
+matlabFunction(pc, 'file', fullfile(this_path, 'sw_model_pc'), 'Vars', {q});
+
+matlabFunction([p1x;p1y], [p2x;p2y], [v1x;v1y], [v2x;v2y], [a1x;a1y], [a2x;a2y], 'file', fullfile(this_path, 'sw_model_fkine'), 'Vars', {q,qd,qdd});
 
 % to solve for qdd analytically
 sol = solve(M*qdd==C+fe, qdd);
 qdd_out = [sol.ax sol.ay sol.theta1dd sol.theta2dd sol.r1dd sol.r2dd].';
-matlabFunction(qdd_out, 'file', 'sw_model_qdd', 'Vars', {q,qd,u});
+matlabFunction(qdd_out, 'file', fullfile(this_path, 'sw_model_qdd'), 'Vars', {q,qd,u});
 
 
