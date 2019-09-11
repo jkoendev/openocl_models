@@ -1,7 +1,7 @@
 
 stageL = ocl.Stage(1, ...
   @sw_ocl_ms_vars_L, ....
-  @sw_ocl_ms_dae_L, 'N', 50, 'd', 2);
+  @sw_ocl_ms_dae_L, 'N', 20, 'd', 2);
 
 stageL.setInitialStateBounds('time', 0);
 
@@ -22,8 +22,8 @@ stageL.setControlBounds('r1tau', 0);
 stageL.setControlBounds('r2tau', 0);
 
 stageD = ocl.Stage(1, ...
-  @sw_ocl_ms_vars_L, ....
-  @sw_ocl_ms_dae_L, 'N', 50, 'd', 2);
+  @sw_ocl_ms_vars_D, ....
+  @sw_ocl_ms_dae_D, 'N', 20, 'd', 2);
 
 stageD.setControlBounds('tau', 0);
 stageD.setControlBounds('r1tau', 0);
@@ -49,38 +49,49 @@ if record_video
   open(video_writer);
 end
 
-x_max = max(vars.states.p(:).value)+1;
-[fig,handle] = simple_walker_draw_prepare([-x_max, x_max, -0.1, 2*x_max-0.1]);
+x_max = 0;
+for j=1:length(vars)
+  x_max = max([x_max;abs(vars{j}.states.p(:).value)]);
+end
 
-t = times.states.value;
+[fig,handle] = simple_walker_draw_prepare([-x_max-1, x_max+1, -0.1, 2*x_max-0.1]);
 
-for k=2:length(t)
+for j=1:length(vars)
   
-  x = vars.states{k};
-  
-  p = x.p.value;
-  theta1 = x.theta1.value;
-  theta2 = x.theta2.value;
-  r1 = x.r1.value;
-  r2 = x.r2.value;
-  
-  v = x.v.value;
-  theta1d = x.theta1d.value;
-  theta2d = x.theta2d.value;
-  r1d = x.r1d.value;
-  r2d = x.r2d.value;
+  vj = vars{j};
+  tj = times{j};
 
-  q = [p; theta1; theta2; r1; r2];
-  qd = [v; theta1d; theta2d; r1d; r2d];
-  
-  simple_walker_draw_frame(handle, q, qd)
-  
-  if record_video
-    frame = getframe(fig);
-    writeVideo(video_writer, frame);
+  t = tj.states.value;
+
+  for k=2:length(t)
+
+    x = vj.states{k};
+
+    p = x.p.value;
+    theta1 = x.theta1.value;
+    theta2 = x.theta2.value;
+    r1 = x.r1.value;
+    r2 = x.r2.value;
+
+    v = x.v.value;
+    theta1d = x.theta1d.value;
+    theta2d = x.theta2d.value;
+    r1d = x.r1d.value;
+    r2d = x.r2d.value;
+
+    q = [p; theta1; theta2; r1; r2];
+    qd = [v; theta1d; theta2d; r1d; r2d];
+
+    simple_walker_draw_frame(handle, q, qd)
+
+    if record_video
+      frame = getframe(fig);
+      writeVideo(video_writer, frame);
+    end
+
+    pause(t(k)-t(k-1))
+
   end
-  
-  pause(t(k)-t(k-1))
   
 end
 
