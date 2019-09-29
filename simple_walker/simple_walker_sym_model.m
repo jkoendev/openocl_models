@@ -79,6 +79,8 @@ pc = [p1y; p2y];
 % generate model functions
 this_path = fileparts(which('simple_walker_sym_model'));
 
+M = simplify(M);
+C = simplify(C);
 
 matlabFunction(C, 'file', fullfile(this_path, 'sw_model_C'), 'Vars', {q;qd});
 matlabFunction(M, 'file', fullfile(this_path, 'sw_model_M'), 'Vars', {q});

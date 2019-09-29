@@ -12,7 +12,7 @@ ocp.setInitialBounds('p', [0;1]);
 ocp.setInitialState('theta1', 0*pi/180);
 ocp.setInitialState('theta2', 50*pi/180);
 ocp.setInitialState('r1', 1);
-ocp.setInitialState('r2', 1.8);
+ocp.setInitialState('r2', 1.0);
 
 ocp.setInitialState('v', [0;0]);
 ocp.setInitialState('theta1d', 0);
