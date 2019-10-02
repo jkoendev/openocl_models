@@ -3,7 +3,7 @@ addpath('ocl_model')
 addpath('ocl_cost_constraints')
 addpath('ocl_model_explicit')
 
-movie = true;
+movie = false;
 
 mdl_puma560
 q0 = p560.qz;
@@ -19,7 +19,7 @@ wp2 = [0.4; -0.2; 0.3];
 
 solver = ocl.Solver(T, @p560_ocl_vars_explicit, @p560_ocl_ode_explicit, ...
                     'pathcosts', @p560_ocl_cost_torques, ...
-                    'gridconstraints', @(h,k,K,x,p)p560_ocl_waypoints(h,k,x,wp1,wp2), ...
+                    'gridconstraints', @(h,k,K,x,p)p560_ocl_waypoints(h,k,K,x,wp1,wp2), ...
                     'N', N);
 
 solver.setInitialBounds('q', q0);
@@ -53,13 +53,13 @@ plot3(wp1(1), wp1(2), wp1(3), 'ro', 'LineWidth', 5);
 plot3(wp2(1), wp2(2), wp2(3), 'bo', 'LineWidth', 5);
 
 if movie
-  p560.plot3d(q_traj, 'fps', N/T, 'movie', 'movie.mp4');
+  p560.plot3d(q_traj, 'fps', N/T, 'movie', 'movie_expl.mp4');
 else
   p560.plot3d(q_traj, 'fps', N/T);
 end
 
 figure
-oclPlot(times.controls, sol.controls.tau')
+ocl.plot(times.controls, sol.controls.tau')
 ylabel('applied torque')
 xlabel('time')
 legend({'q1','q2','q3','q4','q5','q6'})

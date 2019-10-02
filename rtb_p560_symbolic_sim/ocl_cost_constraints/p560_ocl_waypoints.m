@@ -1,4 +1,4 @@
-function p560_ocl_waypoints(ch, k, x, wp1, wp2)
+function p560_ocl_waypoints(ch, k, K, x, wp1, wp2)
 
   if k == 20
     p_target = wp1;

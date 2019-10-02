@@ -6,18 +6,15 @@ qd = x.qd;
 lambda1 = z.lambda1;
 theta1dd = z.theta1dd;
 
-theta2dd = u.theta2dd;
-r1dd = u.r1dd;
-r2dd = u.r2dd;
-
 y = [q;qd;lambda1;theta1dd];
 
-yd = sw2_ode_L([],y);
+yd = sw2_ode_L([],y, [0;u.theta2dd;u.r1dd;u.r2dd]);
 
 qdd = yd(7:12);
 
-dh.setODE('q', qd);
-dh.setODE('qd', qdd);
+dh.setODE('q', p.T*qd);
+dh.setODE('qd', p.T*qdd);
 
-dh.setAlgEquation(y(13));
-dh.setAlgEquation(y(14));
+dh.setAlgEquation(yd(13));
+dh.setAlgEquation(yd(14));
+

@@ -17,7 +17,7 @@ wp1 = [-0.2; 0.6; 0.3];
 wp2 = [0.4; -0.2; 0.3];
 solver = ocl.Solver(T, @p560_ocl_vars, @p560_ocl_dae, ...
                     'pathcosts', @p560_ocl_cost_torques, ...
-                    'gridconstraints', @(h,k,K,x,p)p560_ocl_waypoints(h,k,x,wp1,wp2), ...
+                    'gridconstraints', @(h,k,K,x,p)p560_ocl_waypoints(h,k,K,x,wp1,wp2), ...
                     'N', N);
 
 solver.setInitialBounds('q', q0);
@@ -57,7 +57,7 @@ else
 end
 
 figure
-oclPlot(times.controls, sol.controls.tau')
+ocl.plot(times.controls, sol.controls.tau.')
 ylabel('applied torque')
 xlabel('time')
 legend({'q1','q2','q3','q4','q5','q6'})

@@ -36,19 +36,8 @@ fc2 = (p-p2) * lambda2;
 
 a = [0; -m*g] + fc1 + fc2;
 
-qdd = zeros(6,1);
-qdd(1:2) = a;
-qdd(3) = theta1dd;
-qdd(4) = theta2dd;
-qdd(5) = r1dd;
-qdd(6) = r2dd;
+qdd = vertcat(a, theta1dd, theta2dd, r1dd, r2dd);
 
 [a1, a2] = sw2_fkine_a(q, qd, qdd);
 
-yd = zeros(12,1);
-yd(1:6) = qd;
-yd(7:12) = qdd;
-yd(13) = a1(1);
-yd(14) = a1(2);
-yd(15) = a2(1);
-yd(16) = a2(2);
+yd = vertcat(qd, qdd, a1(1), a1(2), a2(1), a2(2));
