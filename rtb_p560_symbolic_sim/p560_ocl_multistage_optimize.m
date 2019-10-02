@@ -14,28 +14,49 @@ T = 10;
 N = 50;
 
 wp1 = [-0.2; 0.6; 0.3];
-wp2 = [0.4; -0.2; 0.3];
-solver = ocl.Solver(T, @p560_ocl_vars, @p560_ocl_dae, ...
+stage1 = ocl.Stage(T/3, @p560_ocl_vars, @p560_ocl_dae, ...
                     'pathcosts', @p560_ocl_cost_torques, ...
-                    'gridconstraints', @(h,k,K,x,p)p560_ocl_waypoints(h,k,K,x,wp1,wp2), ...
-                    'N', N);
+                    'gridconstraints', @(h,k,K,x,p)p560_ocl_endpoint(h,k,K,x,wp1), ...
+                    'N', floor(N/3));
 
-solver.setInitialBounds('q', q0);
-solver.setInitialBounds('qd', zeros(1,6));
+stage1.setInitialStateBounds('q', q0);
+stage1.setInitialStateBounds('qd', zeros(1,6));
 
-solver.setEndBounds('q', qF)
-solver.setEndBounds('qd', zeros(1,6))
+stage1.setStateBounds('q', qmin, qmax);
+stage1.setControlBounds('tau', -100, 100);
 
-solver.setBounds('q', qmin, qmax);
-solver.setBounds('tau', -100, 100);
+wp2 = [0.4; -0.2; 0.3];
+stage2 = ocl.Stage(T/3, @p560_ocl_vars, @p560_ocl_dae, ...
+                    'pathcosts', @p560_ocl_cost_torques, ...
+                    'gridconstraints', @(h,k,K,x,p)p560_ocl_endpoint(h,k,K,x,wp2), ...
+                    'N', floor(N/3));
+                  
+stage2.setStateBounds('q', qmin, qmax);
+stage2.setControlBounds('tau', -100, 100);
+                  
+stage3 = ocl.Stage(T/3, @p560_ocl_vars, @p560_ocl_dae, ...
+                    'pathcosts', @p560_ocl_cost_torques, ...
+                    'N', floor(N/3));
 
-ig = solver.ig();
-ig.states.q.set(q0)
-ig.integrator.states.q.set(q0);
+stage3.setEndStateBounds('q', qF)
+stage3.setEndStateBounds('qd', zeros(1,6))
 
-[sol,times] = solver.solve(ig);
+stage3.setStateBounds('q', qmin, qmax);
+stage3.setControlBounds('tau', -100, 100);
 
-q_traj = sol.states.q.value.';
+problem = ocl.MultiStageProblem({stage1, stage2, stage3}, ...
+  {@p560_ocl_transition, @p560_ocl_transition});
+
+ig = problem.ig();
+for k=1:3
+  ig{k}.states.q.set(q0)
+  ig{k}.integrator.states.q.set(q0);
+end
+
+[sol,times] = problem.solve(ig);
+
+%% plot
+q_traj = [sol{1}.states.q.value, sol{2}.states.q.value, sol{3}.states.q.value]';
 
 figure;
 hold on; grid on;
@@ -56,9 +77,9 @@ else
   p560.plot3d(q_traj, 'fps', N/T);
 end
 
-figure
-ocl.plot(times.controls, sol.controls.tau')
-ylabel('applied torque')
-xlabel('time')
-legend({'q1','q2','q3','q4','q5','q6'})
+% figure
+% ocl.plot(times.controls, sol.controls.tau')
+% ylabel('applied torque')
+% xlabel('time')
+% legend({'q1','q2','q3','q4','q5','q6'})
 
