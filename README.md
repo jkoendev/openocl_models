@@ -2,7 +2,7 @@
 
 ![Minimal torque optimized trajectory with two waypoints](https://openocl.org/assets/img/p560_two_waypoint.gif)
 
-We plan to implement a direct interface to Peter Corke's robotics toolbox in OpenOCL soon, let me know if you would like to get involved!
+Here are some experimental models. Some are using Peter Corke's robotics toolbox, let me know if you would like to give it a try!
 https://github.com/OpenOCL/OpenOCL/issues/102
 
 Collection of (very experimental) models for optimal control with OpenOCL.
