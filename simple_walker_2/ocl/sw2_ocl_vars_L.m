@@ -10,4 +10,4 @@ vh.addControl('r2dd');
 vh.addAlgVar('lambda1');
 vh.addAlgVar('theta1dd');
 
-vh.addParameter('T');
+% vh.addParameter('T');

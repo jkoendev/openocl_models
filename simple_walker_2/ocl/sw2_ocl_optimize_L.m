@@ -1,15 +1,13 @@
 
-problem = ocl.Problem(1, ...
+problem = ocl.Problem(3, ...
   @sw2_ocl_vars_L, ...
   @sw2_ocl_dae_L, ... 
-  @sw2_ocl_pathcost, ... 
-  'gridconstraints', @sw2_ocl_gridconstraints_L, ...
-  'N', 40, 'd', 3);
+  'N', 30, 'd', 2);
 
 px = 0;
 py = 1; 
 theta1 = -5*pi/180;
-theta2 = 50*pi/180;
+theta2 = 20*pi/180;
 r1 = 1;
 r2 = 1;
 
@@ -18,18 +16,16 @@ qd = zeros(6,1);
 
 vx = 1;
 
-problem.setInitialState('q', [px,py,theta1,theta2,r1,r2]');
-problem.setInitialBounds('qd', [vx, 0, -inf, 0, -inf, 0]', [vx, 0, inf, 0, inf, 0]');
+problem.setInitialState('q', q);
+problem.setInitialState('qd', qd);
 
 problem.setBounds('theta2dd', 0);
 problem.setBounds('r1dd', 0);
 problem.setBounds('r2dd', 0);
 
-% problem.setBounds('T',1,2);
-
 ig = problem.ig();
-ig.states.qd = 1;
-ig.integrator.algvars = 1;
+% ig.states.qd = 1;
+% ig.integrator.algvars = 1;
 
 [vars, times] = problem.solve(ig);
 

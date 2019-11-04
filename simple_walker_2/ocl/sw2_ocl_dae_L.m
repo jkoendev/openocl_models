@@ -12,8 +12,8 @@ yd = sw2_ode_L([],y, [0;u.theta2dd;u.r1dd;u.r2dd]);
 
 qdd = yd(7:12);
 
-dh.setODE('q', p.T*qd);
-dh.setODE('qd', p.T*qdd);
+dh.setODE('q', qd);
+dh.setODE('qd', qdd);
 
 dh.setAlgEquation(yd(13));
 dh.setAlgEquation(yd(14));

@@ -37,6 +37,7 @@ ig.integrator.states.q.set(q0);
 
 q_traj = sol.states.q.value.';
 
+%% 
 figure;
 hold on; grid on;
 

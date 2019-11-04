@@ -4,8 +4,8 @@ N = 100;
 
 px = 0;
 py = 1; 
-theta1 = -5*pi/180;
-theta2 = 50*pi/180;
+theta1 = -10*pi/180;
+theta2 = 30*pi/180;
 r1 = 1;
 r2 = 1;
 
